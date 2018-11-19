@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>Live number of signatures of your petition on speakout</title>
+    <meta name="description" content="one phone per digit. Hold them next to each other, click on the right digit and you have a 'giant' counter of your signatures that updates live">
+    <script src="textFit.min.js"></script>
+<style>
+  html,body {height:100%;margin:0
+  box-sizing: border-box;
+  overflow:hidden;
+  }
+  *, *:before, *:after { box-sizing: inherit; }
+  a {text-decoration:none;color:black;}
+
+  #nav,#share {
+    z-index:100;
+    position:fixed;
+    top:0;
+  }
+
+  #nav{
+    right:0;
+  }
+  #share{
+    left:0;
+  }
+
+
+  #counter {
+    width:100%;
+    height:100%;
+  }
+</style>
+  <div id="share"><a href="whatsapp://send" data-text="Help me display the counter" data-href="">Share</a></div>
+    <div id="nav">here</div>
+    <div id="counter">...</div>
+<script>
+
+  var config = {
+    counter:123,
+    text:'',
+    base:null,
+    campaign:null,
+    fit:{alignVert:true,alignHoriz:true,reProcess:true,minFontSize:10, maxFontSize: 50000}
+  };
+
+
+  
+  function listCampaign(){
+    var xmlhttp = new XMLHttpRequest();
+    xmlhttp.onreadystatechange = function() {
+      if (this.readyState == 4 && this.status == 200) {
+        var campaigns = JSON.parse(this.responseText);
+
+        document.title = "choose a campaign";
+        var t="<ul>";
+        campaigns.forEach(function(c){
+          t += "<li><a href='?base="+config.base +"&campaign="+c.slug+"'>"+c.name+"</a>";
+        });
+        t +="</ul>";
+        document.body.innerHTML=t;
+
+      }
+    }
+
+    xmlhttp.open("GET", "https://"+config.base+"/featured.json", true);
+    xmlhttp.send();
+    
+  }
+
+  function fetch() {
+    var xmlhttp = new XMLHttpRequest();
+//    var url = "https://act.wemove.eu/campaigns/no-patents-on-beer.json";
+    var url = new URL(window.location);
+    var params = new URLSearchParams(url.search);
+    config.campaign = params.get('campaign');
+    config.base= params.get('base') || "act.wemove.eu";
+    var url="https://"+config.base+"/campaigns/"+config.campaign+".json";
+    if (!config.campaign)
+      return listCampaign();
+
+    xmlhttp.onreadystatechange = function() {
+      if (this.readyState == 4 && this.status == 200) {
+        var campaign = JSON.parse(this.responseText);
+        document.title = campaign.name;
+        config.counter=campaign.rsigns;
+        draw();
+        setTimeout(function(){ fetch (); }, 2000);
+      }
+    }
+    xmlhttp.open("GET", url, true);
+    xmlhttp.send();
+  };
+
+  function draw(){
+    var str=config.counter.toString();
+    config.text='';
+    for (var i = 0; i < str.length; i++) {
+      config.text += "<a href='#"+(i+1)+"'>"+str[i]+"</a>";
+    }
+    if(!window.location.hash) {
+    } else {
+      document.getElementById('nav').innerHTML="<a href='#'>"+str+"</a>";
+      config.text="<a href='#'>"+str[window.location.hash.substring(1)-1]+"</a>";
+    }
+    document.getElementById('counter').innerHTML=config.text;
+    textFit(document.getElementById('counter'),config.fit);
+  }
+
+  fetch();
+  //"https://twitter.com/share?url="+escape(window.location.href)+"&text="+document.title, '', 'menubar=no,toolbar=no,resizable=yes,scrollbars=yes,height=300,width=600')hare</div>
+  window.onresize = function(event) {textFit(document.getElementById('counter'),config.fit)};
+  window.addEventListener("hashchange", function(){draw()}, false);
+</script>
+  </body>
+</html>
