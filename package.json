@@ -1,0 +1,28 @@
+{
+  "name": "phonecount",
+  "version": "1.0.0",
+  "description": "Display a live counter",
+  "main": "index.js",
+  "devDependencies": {
+    "gulp": "^3.9.1",
+    "gulp-clean-css": "^4.0.0",
+    "gulp-concat": "^2.6.1",
+    "gulp-gzip": "^1.4.2",
+    "gulp-sourcemaps": "^2.6.4",
+    "gulp-uglify": "^3.0.1",
+    "odometer": "^0.4.8"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/tttp/phonecounter.git"
+  },
+  "author": "Xavier Dutoit",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/tttp/phonecounter/issues"
+  },
+  "homepage": "https://github.com/tttp/phonecounter#readme"
+}
