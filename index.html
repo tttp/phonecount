@@ -39,24 +39,36 @@ window.odometerOptions = {
 
 
   #counter {
-    display:flex;
-    align-items:center;
-    width:100%;
-    height:100%;
+    --scale: 1;
+    adisplay:flex;
+    transform:scale(var(--scale));
+    transform-origin: top left;
+    aalign-items:center;
+    awidth:100%;
+    aaheight:100%;
       assfont-size:20vw;
       font-size:20vmax;
   }
 
+@media (min-resolution: 2dppx) {
+  #counter {
+    font-size:10vmax;
+  }
+}
+
   #counter.zoomed {
-    display:block;
     width:auto;
-    font-size:66vmax;
-    margin-top:-110px;
   }
 
-  .odometer-digit:fullscreen {
-    font-size:70vw;
-  aaaaaabackground-color: #faa;
+  #counter.zoomed .odometer-digit {
+    display:none;
+  }
+
+  #counter.zoomed .odometer-digit.zoomed {
+    --scale: 1;
+    transform:scale(var(--scale));
+    transform-origin: top left;
+    display:inline-block;
   }
 </style>
   <div id="share"><a href="whatsapp://send" data-text="Help me display the counter" data-href="">Share</a></div>
@@ -143,6 +155,13 @@ window.odometerOptions = {
     xmlhttp.send();
   };
 
+  function scale(d){
+    var sw=window.innerWidth / d.offsetWidth;
+    var sh=window.innerHeight / d.offsetHeight;
+
+    d.style.setProperty('--scale', sw > sh ? sh:sw);
+  }
+
   function draw(){
     var str=config.counter.toString();
     config.text='';
@@ -168,19 +187,24 @@ function digitZoomable(){
     var target=e.target.closest(".odometer-digit");
     if (!target) return;
     if (config.zoomed) {
-      config.zoomed=false;
       d.classList.remove("zoomed");
+      target.classList.remove("zoomed");
+      target.style.setProperty('--scale', 1);
+      
+//      document.getElementsByClassName('odometer-digit')[config.zoomed-1].classList.remove("zoomed");
       window.location.hash='';
+      config.zoomed=false;
       return;
     }
     
-    config.zoomed=1;
     d.classList.add("zoomed");
-    console.log(target.offsetLeft);
-    console.log(target);
-    var index=getElementIndex(target)+1;
-    window.location.hash=index;
-//    toggleFullScreen(target);//document.getElementById("counter"));
+    var x=target.offsetLeft;
+    target.style.left="-"+x+"px";
+    target.classList.add("zoomed");
+    config.zoomed = getElementIndex(target)+1;
+    window.location.hash=config.zoomed;
+    toggleFullScreen(d);//document.getElementById("counter"));
+    scale(target);
   function getElementIndex(element) {
     var index = 0;
     var node=element;
@@ -211,9 +235,12 @@ function digitZoomable(){
 }
 
   fetch();
-  //"https://twitter.com/share?url="+escape(window.location.href)+"&text="+document.title, '', 'menubar=no,toolbar=no,resizable=yes,scrollbars=yes,height=300,width=600')hare</div>
   //window.onresize = function(event) {};
   window.addEventListener("hashchange", function(){draw()}, false);
+  document.querySelector('.odometer').addEventListener('odometerdone', function(){
+    if (!config.zoomed)
+      scale(document.getElementById("counter"));
+  });
 </script>
   </body>
 </html>
