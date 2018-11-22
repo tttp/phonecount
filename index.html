@@ -47,12 +47,12 @@ window.odometerOptions = {
     awidth:100%;
     aaheight:100%;
       assfont-size:20vw;
-      font-size:20vmax;
+      font-size:15vmax;
   }
 
 @media (min-resolution: 2dppx) {
   #counter {
-    font-size:10vmax;
+    font-size:8vmax;
   }
 }
 
@@ -134,7 +134,6 @@ window.odometerOptions = {
     xmlhttp.onreadystatechange = function() {
       if (this.readyState == 4 && this.status == 200) {
         var campaign = JSON.parse(this.responseText);
-        document.title = campaign.name;
         var old=config.counter;
         if (campaign.parent_group)
           config.counter=campaign.parent_group.rsigns;
@@ -146,6 +145,7 @@ window.odometerOptions = {
         } else {
           config.timer += 1000;
         }
+        document.title = config.counter +"⇔"+campaign.name;
         draw();
 
         setTimeout(function(){ fetch (); }, config.timer);

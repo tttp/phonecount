@@ -8,8 +8,11 @@ var gulp = require('gulp'),
 gulp.task('css',function(){
   return gulp
     .src([
-      ,'asset/main.css'
-      ,'node_modules/odometer/themes/odometer-theme-train-station.css'
+      ,'assets/main.css'
+      ,'assets/theme.css'
+      //,'node_modules/odometer/themes/odometer-theme-default.css'
+//      ,'node_modules/odometer/themes/odometer-theme-car.css'
+//      ,'node_modules/odometer/themes/odometer-theme-train-station.css'
     ], { base: 'node_modules' })
     .pipe(sourcemaps.init())
     .pipe(concat('main.css'))
