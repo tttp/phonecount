@@ -159,7 +159,7 @@ window.odometerOptions = {
     var sw=window.innerWidth / d.offsetWidth;
     var sh=window.innerHeight / d.offsetHeight;
 
-    d.style.setProperty('--scale', sw > sh ? sh:sw);
+    d.style.setProperty('--scale', 0.98 *(sw > sh ?  sh:sw));
   }
 
   function draw(){
