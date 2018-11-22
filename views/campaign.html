@@ -1,0 +1,192 @@
+{{> header}}
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>Live number of signatures of your petition on speakout</title>
+    <meta name="description" content="An app that synchronise several phones to build a 'giant' counter. Each of them display one digit of the counter, you hold them next to each other, and they all update live">
+<script>
+window.odometerOptions = {
+  format: "(   ddd).dd",
+  theme: 'train-station',
+  selector: '.odometer',
+};
+</script>
+
+    <script src="/js/main.js"></script>
+    <link rel="stylesheet" href="/css/main.css">
+<style>
+  html,body {height:100%;margin:0
+  box-sizing: border-box;
+  overflow:hidden;
+  background: linear-gradient(135deg, #b8c6df 0%,#6d88b7 100%);
+  }
+  *, *:before, *:after { box-sizing: inherit; }
+  a {text-decoration:none;color:black;}
+
+  #nav,#share {
+    z-index:100;
+    position:fixed;
+    top:0;
+  }
+
+  #nav{
+    right:0;
+  }
+  #share{
+    left:0;
+  }
+
+
+  #counter {
+    --scale: 1;
+    adisplay:flex;
+    transform:scale(var(--scale));
+    transform-origin: top left;
+    aalign-items:center;
+    awidth:100%;
+    aaheight:100%;
+      assfont-size:20vw;
+      font-size:15vmax;
+  }
+
+@media (min-resolution: 2dppx) {
+  #counter {
+    font-size:8vmax;
+  }
+}
+
+  #counter.zoomed {
+    width:auto;
+  }
+
+  #counter.zoomed .odometer-digit {
+    display:none;
+  }
+
+  #counter.zoomed .odometer-digit.zoomed {
+    --scale: 1;
+    transform:scale(var(--scale));
+    transform-origin: top left;
+    display:inline-block;
+  }
+</style>
+  <div id="share"><a href="whatsapp://send" data-text="Help me display the counter" data-href="">Share</a></div>
+    <div id="nav">here</div>
+    <div id="counter" class="odometer"></div>
+<script>
+
+window.odometerOptions = {
+
+  format: '( ddd).', // Change how digit groups are formatted, and how many digits are shown after the decimal point
+  theme: 'train-station',
+  selector: '.oodometer',
+  animation: 'count'
+};
+
+
+
+
+  var config = {
+    counter:{{counter}},
+    timer:2000,
+    base:"{{url}}",
+    zoomable:false,
+    campaign:"{{campaign.slug}}",
+  };
+
+  var socket = io.connect('http://localhost:3000');
+
+  socket.on('connect', function(){
+    socket.emit('track', config);
+    console.log("connected");
+  });
+
+  socket.on('counter', function (data) {
+    console.log("got:"+data);
+    config.counter=data;
+    if (config.zoomable)
+      config.digit=config.counter.toString()[config.zoomed-1];
+    draw();
+  });
+
+  
+  function draw(){
+    if(!window.location.hash) {
+    } else {
+      document.getElementById('nav').innerHTML="<a href='#'>"+config.counter+"</a>";
+      config.text="<a href='#'>"+str[window.location.hash.substring(1)-1]+"</a>";
+    }
+    document.getElementById('counter').innerHTML=counter.digit || config.counter; //config.text
+    setTimeout(function(){ digitZoomable();window.scrollTo(0, 1); }, 0);//remove nav address
+  }
+
+function digitZoomable(){
+  if (config.zoomable) return;
+  config.zoomable=true;
+
+  var d=document.getElementById('counter');
+
+  d.addEventListener("click", function( e ) {
+    var target=e.target.closest(".odometer-digit");
+    if (!target) return;
+    if (config.zoomed) {
+      d.classList.remove("zoomed");
+      target.classList.remove("zoomed");
+      target.style.setProperty('--scale', 1);
+      
+      window.location.hash='';
+      config.zoomed=false;
+      config.digit=false;
+      return;
+    }
+
+    d.classList.add("zoomed");
+    var x=target.offsetLeft;
+    target.style.left="-"+x+"px";
+    target.classList.add("zoomed");
+    config.zoomed = getElementIndex(target)+1;
+    window.location.hash=config.zoomed;
+    config.digit=config.counter[config.zoomed-1];
+//    toggleFullScreen(d);//document.getElementById("counter"));
+//    scale(target);
+  function getElementIndex(element) {
+    var index = 0;
+    var node=element;
+    while ( (node = node.previousElementSibling) ) {
+        if (node.classList.contains('odometer-digit'))
+        index++;
+    }
+    return index;
+  }
+
+  function toggleFullScreen(videoElement) {
+    if (!document.mozFullScreen && !document.webkitFullScreen) {
+      if (videoElement.mozRequestFullScreen) {
+        videoElement.mozRequestFullScreen();
+      } else {
+        videoElement.webkitRequestFullScreen(Element.ALLOW_KEYBOARD_INPUT);
+      }
+    } else {
+      if (document.mozCancelFullScreen) {
+        document.mozCancelFullScreen();
+      } else {
+        document.webkitCancelFullScreen();
+      }
+    }
+  }
+
+  }, false);
+}
+
+  draw();
+  //window.onresize = function(event) {};
+  window.addEventListener("hashchange", function(){draw()}, false);
+  document.querySelector('.odometer').addEventListener('odometerdone', function(){
+    if (!config.zoomed)
+      scale(document.getElementById("counter"));
+  });
+</script>
+  </body>
+</html>
