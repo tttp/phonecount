@@ -122,6 +122,14 @@ window.odometerOptions = {
     setTimeout(function(){ digitZoomable();window.scrollTo(0, 1); }, 0);//remove nav address
   }
 
+  function scale(d){
+    var sw=window.innerWidth / d.offsetWidth;
+    var sh=window.innerHeight / d.offsetHeight;
+
+    d.style.setProperty('--scale', 0.98 *(sw > sh ?  sh:sw));
+  }
+
+
 function digitZoomable(){
   if (config.zoomable) return;
   config.zoomable=true;
