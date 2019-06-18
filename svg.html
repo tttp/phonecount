@@ -4,6 +4,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 
+
 <style>
 @font-face {
   font-family: 'DSEG';
@@ -12,25 +13,48 @@
 }
 body{margin:0}
 svg {display:none;height:100%,width:100%;}
-svg text {font-size:100vh;}
-.container {height:100vh;background:black;overflow:hidden}
-.vertical {
+svg text {font-size:100vmin;}
+.container {height:100vh;width:100%;background:black;overflow:hidden}
+.digit {
+  text-align:center;
   --colorlight: #fffdfe;
   --color: #F01;
   --glow: #9e0500;
   --edge:#f12e58;
-  font-size:110vh;font-family:'DSEG',arial,sans-serif; color:var(--color);
+  font-family:'DSEG',arial,sans-serif; color:var(--color);
 text-shadow: 0 0 5px var(--edge), 0 0 10px var(--edge), 0 0 20px var(--glow), 0 0 30px var(--glow), 0 0 40px var(--glow), 0 0 55px var(--glow), 0 0 75px var(--glow);
 }
+
+.digit {
+  font-size:110vh;
+}
+.horizontal .digit{
+  font-size:180vw;
+}
+
 </style>
   </head>
 <body>
 <div class="container">
   <div class="digit vertical">2</div>
 </div>
-<svg xmlns="http://www.w3.org/2000/svg" width="100%" height="100%" viewBox='-50 -50 100 100'>
-<text lengthAdjust="spacing" x='0' y="100" praeserveAspectRatio="xMidYMid meet" >
-    1
-</text>
-</svg>
+
+<script>
+
+function resize(){
+  var w = Math.max(document.documentElement.clientWidth, window.innerWidth || 1);
+  var h = Math.max(document.documentElement.clientHeight, window.innerHeight || 0);
+  if (h/w >1.82) {
+    document.getElementsByTagName('body')[0].className="horizontal"; 
+  } else {
+    document.getElementsByTagName('body')[0].className=""; 
+  }
+}
+
+
+window.addEventListener('resize', resize);
+resize();
+
+</script>
+
 </html>
