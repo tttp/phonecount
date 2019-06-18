@@ -36,10 +36,17 @@ text-shadow: 0 0 5px var(--edge), 0 0 10px var(--edge), 0 0 20px var(--glow), 0 
   </head>
 <body>
 <div class="container">
-  <div class="digit vertical">2</div>
+  <div class="digit vertical">-</div>
 </div>
 
 <script>
+
+var counter=0;
+setInterval(function(){
+  document.getElementsByClassName("digit")[0].innerHTML = counter --;
+  if (counter <0) counter=9;
+
+}, 1000);
 
 function resize(){
   var w = Math.max(document.documentElement.clientWidth, window.innerWidth || 1);
