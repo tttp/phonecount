@@ -33,7 +33,7 @@ const Number = React.memo(function Number(props) {
 
 
   return (
-    <div onKeyPress={handleKey} {...handlers} tabIndex="0">
+    <div onKeyPress={handleKey} {...handlers}>
     <Digit value={props.value.toString()[position]} />
     </div>
   );

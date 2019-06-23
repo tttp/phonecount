@@ -6,8 +6,9 @@
 }
 
 body{margin:0}
-.container {height:100vh;width:100%;background:black;overflow:hidden}
+.container {height:100vh;width:100%;background:black;overflow:hidden;border:none;}
 .digit {
+  border:none;
   text-align:center;
   --colorlight: #fffdfe;
   --color: #F01;
