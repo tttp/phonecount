@@ -1,0 +1,29 @@
+
+@font-face {
+  font-family: 'DSEG';
+  src:
+    url(./assets/7segment.woff) format("woff");
+}
+
+body{margin:0}
+.container {height:100vh;width:100%;background:black;overflow:hidden}
+.digit {
+  text-align:center;
+  --colorlight: #fffdfe;
+  --color: #F01;
+  --glow: #9e0500;
+  --edge:#f12e58;
+  font-family:'DSEG',arial,sans-serif; color:var(--color);
+  margin-left:-10vw;
+text-shadow: 0 0 5px var(--edge), 0 0 10px var(--edge), 0 0 20px var(--glow), 0 0 30px var(--glow), 0 0 40px var(--glow), 0 0 55px var(--glow), 0 0 75px var(--glow);
+}
+
+.digit {
+  font-size:110vh;
+}
+
+.horizontal {
+  font-size:180vw;
+}
+
+
