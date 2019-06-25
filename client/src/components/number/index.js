@@ -21,7 +21,6 @@ const Number = React.memo(function Number(props) {
     if (event.key === "p")
       return slide(-1);
     slide (1);
-    console.log(event.key);
   };
 
   const handlers = useSwipeable({
@@ -33,7 +32,7 @@ const Number = React.memo(function Number(props) {
 
 
   return (
-    <div onKeyPress={handleKey} {...handlers}>
+    <div onKeyPress={handleKey} {...handlers} tabIndex='0' style={{outline:'none'}}>
     <Digit value={props.value.toString()[position]} />
     </div>
   );

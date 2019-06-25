@@ -5,7 +5,7 @@ var io = require('socket.io')(server);
 
 var conf= {
   port:process.env.port || 3000,
-  url:process.env.url
+  hostname:process.env.hostname || "localhost"
 }
 console.log(conf);
 conf.counter=123456;
@@ -20,4 +20,7 @@ io.on('connection', function(){
   client.on('event', function(data){});
   client.on('disconnect', function(){});
 });
-server.listen(conf.port);
+
+server.listen(conf.port, url, () => {
+  console.log(`Server running at http://${conf.port}:${conf.hostname}/`);
+});
