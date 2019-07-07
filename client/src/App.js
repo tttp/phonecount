@@ -1,8 +1,8 @@
 import React, {useEffect, useState} from 'react';
 //import Digit from './components/digit';
 //import { BrowserRouter as Router, Route, Link } from "react-router-dom";
-import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
-
+//import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
+import {useRoutes} from 'hookrouter';
 
 import Number from './components/number';
 import Dashboard from './components/dashboard';
@@ -49,7 +49,7 @@ function App() {
 	  return (<Dashboard value={value} update={updateValue}/>);
 	}
 
-function NoMatch({ location }) {
+function noMatch({ location }) {
   return (
     <div>
       <h3>
@@ -67,15 +67,17 @@ function NoMatch({ location }) {
 
 
   const basename=process.env.REACT_APP_BASENAME || "/";
+  const routes = {
+    basename : number,
+    "admin" : dashboard
+  };
+
+  const routeResult = useRoutes(routes);
+
+  return routeResult || noMatch;
+
   return (
     <div className="App" onKeyPress={handleKey} tabIndex='0' style={{outline:'none'}}>
-    <Router basename={basename}>
-    <Switch>
-    <Route path="/" exact render={number} />
-    <Route path="/admin" render={dashboard} />
-    <Route component={NoMatch} />
-    </Switch>
-    </Router>
     </div>
   );
 }
