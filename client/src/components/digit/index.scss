@@ -13,20 +13,22 @@
   --glow: #9e0500;
   --edge:#f12e58;
   font-family:'DSEG',arial,sans-serif; color:var(--color);
-  margin-left:-10vw;
 text-shadow: 0 0 5px var(--edge), 0 0 10px var(--edge), 0 0 20px var(--glow), 0 0 30px var(--glow), 0 0 40px var(--glow), 0 0 55px var(--glow), 0 0 75px var(--glow);
 }
 
 .inherit {
   font-size:2em;
   background:#282c34;
+  border-radius:10px;
 }
 
 .vertical {
+  margin-left:-10vw;
   font-size:110vh;
 }
 
 .horizontal {
+  margin-left:-10vw;
   font-size:180vw;
 }
 

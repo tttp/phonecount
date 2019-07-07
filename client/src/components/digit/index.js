@@ -11,7 +11,7 @@ const Digit = React.memo(function Digit(props) {
     var t= { width: window.innerWidth, height: window.innerHeight};
     t.allign= t.height/t.width > threshold ? "horizontal" : "vertical";
     if (props.maximize===false)
-      t.allign = "inherit col-1";
+      t.allign = "inherit col";
     
     return t;
   });
@@ -24,7 +24,7 @@ const Digit = React.memo(function Digit(props) {
         };
         t.allign= t.height/t.width > threshold ? "horizontal" : "vertical";
       if (props.maximize && props.maximize===false) 
-        t.allign = "inherit col-1";
+        t.allign = "inherit col";
       setWindowSize(t);
     }
 

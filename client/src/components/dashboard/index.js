@@ -37,12 +37,16 @@ const click = () => {
 
  return (
    <div className="container">
-	 <div className="form-group">
+	 <div className="form-row">
+   <div className="col-label">
 	 <label htmlFor="total">Seconds</label>
+   </div>
+   <div className="col">
 	 <input type="number" name="total" className="form-control" value={props.value} onChange={update} />
 	 </div>
-	 <div className="form-group">
+   <div className="col">
 	 <button className="btn btn-lg btn-primary" onClick={click}>{running ? "Stop": "Start"}</button>
+	 </div>
 	 </div>
    <Digits value={props.value}  />
 	 <form>
