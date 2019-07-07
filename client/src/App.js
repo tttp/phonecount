@@ -1,8 +1,5 @@
 import React, {useEffect, useState} from 'react';
-//import Digit from './components/digit';
-//import { BrowserRouter as Router, Route, Link } from "react-router-dom";
-//import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
-import {useRoutes} from 'hookrouter';
+import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 
 import Number from './components/number';
 import Dashboard from './components/dashboard';
@@ -59,7 +56,8 @@ function noMatch({ location }) {
   );
 }
 
-  function handleKey(event){
+  function handleKey(event){ // TODO: remove of fix
+    //onKeyPress={handleKey} tabIndex='0' style={{outline:'none'}}>
     console.log(event.key);
     if (event.key === "a")
       return this.props.history.push('/admin');//
@@ -72,12 +70,17 @@ function noMatch({ location }) {
     "admin" : dashboard
   };
 
-  const routeResult = useRoutes(routes);
-
-  return routeResult || noMatch;
+//  const routeResult = useRoutes(routes);
+//  return routeResult || noMatch;
 
   return (
-    <div className="App" onKeyPress={handleKey} tabIndex='0' style={{outline:'none'}}>
+    <div className="App">
+    <Router basename={basename}><Switch>
+    <Route path="/" exact render={number} />
+    <Route path="/admin" render={dashboard} />
+    <Route component={noMatch} />
+    </Switch>
+    </Router>
     </div>
   );
 }
