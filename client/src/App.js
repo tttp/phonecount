@@ -32,7 +32,7 @@ function App() {
 
 	function number(){
 	  return (
-	      <div className="container">
+	      <div className="container max">
 		<Number value={value} />
 	      </div>);
 	}
