@@ -1,7 +1,7 @@
 var conf = require('../src/config.js');
 var express = require('express');
 var router = express.Router();
-const counters = require('../controllers/counter.js');//not a controller, a lib
+const counters = require('../src/counter.js');//not a controller, a lib
 const fetch = require('node-fetch');
 
 router.get('/', function(req, res, next) {

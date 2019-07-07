@@ -1,7 +1,9 @@
 import React, { useState} from 'react';
 import Digit from '../digit';
 import { useSwipeable } from 'react-swipeable';
-
+//import { Redirect } from "react-router-dom";
+import { withRouter } from 'react-router-dom';
+//
 const Number = React.memo(function Number(props) {
 
   const [position, setPosition] = useState(() => {
@@ -20,17 +22,21 @@ const Number = React.memo(function Number(props) {
   function handleKey(event){
     if (event.key === "p")
       return slide(-1);
+    if (event.key === "a")
+      return props.history.push('/admin');//
     slide (1);
   };
 
   const handlers = useSwipeable({
+    onSwipedUp: () => props.history.push('/admin'),
+    onSwipedDown: () => props.history.push('/admin'),
     onSwipedLeft: () => slide(1),
     onSwipedRight: () => slide(-1),
     preventDefaultTouchmoveEvent: true,
     trackMouse: true
   });
 
-
+//  if (position === null) return <Redirect to="/admin" />;
   return (
     <div onKeyPress={handleKey} {...handlers} tabIndex='0' style={{outline:'none'}}>
     <Digit value={props.value.toString()[position]} />
@@ -40,4 +46,4 @@ const Number = React.memo(function Number(props) {
 
 });
 
-export default Number;
+export default withRouter(Number);
